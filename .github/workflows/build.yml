@@ -1,0 +1,37 @@
+name: Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout
+        uses: actions/checkout@v3
+      -
+        name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      -
+        name: Build
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: false
+          tags: ketard/mcfarm:latest
+      -
+        name: Export
+        run : |
+          mkdir -p /output/
+          docker save ketard/mcfarm:latest | zstd > /output/ketard_mcfarm_latest.tar.zst
+      -
+        name: Publish
+        uses: marvinpinto/action-automatic-releases@latest
+          with:
+            repo_token: "${{ secrets.GITHUB_TOKEN }}"
+            prerelease: false
+            title: "Build"
+            files: |
+              /output/*
