@@ -24,8 +24,8 @@ jobs:
       -
         name: Export
         run : |
-          mkdir -p /output/
-          docker save ketard/mcfarm:latest | zstd > /output/ketard_mcfarm_latest.tar.zst
+          mkdir -p builds/
+          docker save ketard/mcfarm:latest | zstd > builds/ketard_mcfarm_latest.tar.zst
       -
         name: Publish
         uses: marvinpinto/action-automatic-releases@latest
@@ -34,4 +34,4 @@ jobs:
           prerelease: false
           title: "Build"
           files: |
-            /output/*
+            builds/*

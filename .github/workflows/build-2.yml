@@ -24,14 +24,14 @@ jobs:
       -
         name: Export
         run : |
-          mkdir -p /output/
-          docker save ketard/mcfarm-2:latest | zstd > /output/ketard_mcfarm-2_latest.tar.zst
+          mkdir -p builds/
+          docker save ketard/mcfarm-2:latest | zstd > builds/ketard_mcfarm-2_latest.tar.zst
       -
         name: Publish
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
           prerelease: false
-          title: "Build"
+          title: "Build 2"
           files: |
-            /output/*
+            builds/*
